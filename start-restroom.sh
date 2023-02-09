@@ -29,6 +29,7 @@ cut --version
 echo "####################"
 for i in $(seq 60); do
   echo $i
+  curl -Is "127.0.0.1:3000/docs/"
   http=`curl -Is "127.0.0.1:3000/docs/" | grep HTTP`
   echo $http
   code=`echo $http | cut -d ' ' -f2`
