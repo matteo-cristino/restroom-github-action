@@ -21,4 +21,13 @@ if [[ "$FILES" != "" ]]; then
 fi
 
 docker run --name $RESTROOM_CONTAINER_NAME --publish 3000:3000 $FILES_PARAMS $LOGGER_PARAMS -v "$CONTRACTS":"/app/contracts" --detach ghcr.io/dyne/restroom-mw:master
-sleep 7
+
+for i in $(seq 30); do
+  code=`curl -Is "127.0.0.1:3000/docs/" | grep HTTP | cut -d ' ' -f2`
+  if [[ "$code" == "200" ]]; then
+    break
+  fi
+  sleep 1
+done
+
+[ "$i" == "30" ] && { exit 1; } || { exit 0; }
