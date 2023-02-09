@@ -22,15 +22,10 @@ fi
 
 docker run --name $RESTROOM_CONTAINER_NAME --publish 3000:3000 $FILES_PARAMS $LOGGER_PARAMS -v "$CONTRACTS":"/app/contracts" --detach ghcr.io/dyne/restroom-mw:master
 
-echo "####################"
-curl --help
-grep --help
-cut --help
-echo "####################"
 for i in $(seq 60); do
   echo $i
-  curl -i "127.0.0.1:3000/docs/"
-  http=`curl -is "127.0.0.1:3000/docs/" | grep HTTP`
+  curl -i "http://localhost:3000/docs/"
+  http=`curl -is "http://localhost:3000/docs/" | grep HTTP`
   echo $http
   code=`echo $http | cut -d ' ' -f2`
   echo $code
