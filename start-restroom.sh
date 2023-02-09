@@ -22,11 +22,16 @@ fi
 
 docker run --name $RESTROOM_CONTAINER_NAME --publish 3000:3000 $FILES_PARAMS $LOGGER_PARAMS -v "$CONTRACTS":"/app/contracts" --detach ghcr.io/dyne/restroom-mw:master
 
+echo "####################"
+curl --version
+grep --version
+cut --version
+echo "####################"
 for i in $(seq 60); do
   echo $i
   http=`curl -Is "127.0.0.1:3000/docs/" | grep HTTP`
   echo $http
-  code=`echo $http |  cut -d ' ' -f2`
+  code=`echo $http | cut -d ' ' -f2`
   echo $code
   if [[ "$code" == "200" ]]; then
     break
