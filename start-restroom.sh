@@ -24,7 +24,9 @@ docker run --name $RESTROOM_CONTAINER_NAME --publish 3000:3000 $FILES_PARAMS $LO
 
 for i in $(seq 60); do
   echo $i
-  code=`curl -Is "127.0.0.1:3000/docs/" | grep HTTP | cut -d ' ' -f2`
+  http=`curl -Is "127.0.0.1:3000/docs/" | grep HTTP`
+  echo $http
+  code=`echo $http |  cut -d ' ' -f2`
   echo $code
   if [[ "$code" == "200" ]]; then
     break
@@ -32,4 +34,4 @@ for i in $(seq 60); do
   sleep 1
 done
 
-[ "$i" == "30" ] && { exit 1; } || { exit 0; }
+[ "$i" == "60" ] && { exit 1; } || { exit 0; }
